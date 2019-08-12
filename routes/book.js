@@ -22,10 +22,18 @@ router.get('/',function(req,res,next){
         limit: 5,
         offset: page
     }).then(Books =>{
+        // return res(Books);
+        pages = Math.ceil(Books.count/5)
+        var pageData = {};
+        for(i=1;i<=pages;i++){
+            pageData[i] = {
+                'page':i
+            }
+        }
         res.render('book/index',{
             title:'Book Index',
             data:Books.rows,
-            pages:Math.ceil(Books.count/5)
+            pages:pageData
         });
     })
 })
@@ -69,7 +77,7 @@ router.post('/store',function(req,res,next){
  */
 router.get('/:id',function(req,res,next){
     var bookId = req.params.id
-    // console.log(req.params);
+    // res.send(bookId);
     Book.findOne({
         where:{
             id: bookId
@@ -143,7 +151,7 @@ router.post('/:id/update',function(req,res,next){
  * 
  */
 router.post('/delete',function(req,res,next){
-    var bookId = req.params.id;
+    var bookId = req.body.id;
     Book.destroy({
         where:{
             id:bookId
@@ -151,7 +159,7 @@ router.post('/delete',function(req,res,next){
     }).then(()=>{
         res.redirect('/book');
     }).catch(err=>{
-        res.send(err)
+        res.send("Anjay Mabar : " + err)
     })
 });
 

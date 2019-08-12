@@ -6,6 +6,7 @@ var app = express()
 var db = require('./models/index');
 
 // PART: Routes
+var publicRoutes = require('./routes/public')
 var userRoutes = require('./routes/user')
 var bookRoutes = require('./routes/book')
 
@@ -30,5 +31,6 @@ app.use(bodyParser.json());
 // PART: All the Routes
 app.use('/user',userRoutes)
 app.use('/book',bookRoutes)
+app.use('/',publicRoutes)
 
 app.listen(4000,() => console.log('Connected to Port 4000'))
